@@ -1,0 +1,17 @@
+-- Q1. From the table SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS,
+-- find the top 5 customers who placed the highest number of orders in 1995.
+
+USE SCHEMA SNOWFLAKE_SAMPLE_DATA.TPCH_SF1;
+
+WITH cust_orders AS (
+    SELECT 
+        O_CUSTKEY,
+        COUNT(O_ORDERKEY) AS NO_OF_ORDERS
+    FROM ORDERS
+    WHERE O_ORDERDATE BETWEEN '1995-01-01' AND '1995-12-31'
+    GROUP BY O_CUSTKEY
+)
+SELECT O_CUSTKEY, NO_OF_ORDERS
+FROM cust_orders
+ORDER BY NO_OF_ORDERS DESC
+LIMIT 5;
